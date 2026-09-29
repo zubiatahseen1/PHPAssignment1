@@ -1,4 +1,8 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $dsn = 'mysql:host=localhost;dbname=recipe_box';
 $username = 'root';
 $password = '';
@@ -6,8 +10,8 @@ $password = '';
 try {
     $db = new PDO($dsn, $username, $password);
 } catch (PDOException $e) {
-    $error_message = $e->getMessage();
-    include('error.php');
+    $_SESSION['database_error'] = $e->getMessage();
+    header('Location: database_error.php');
     exit();
 }
 ?>
